@@ -48,5 +48,5 @@ var routes = require('./routes')({
  * Start Express Server
  */
 app.listen(app.get('port'), function(){
-	console.log('Supervisor Web launched on port ' + app.get('port'));
+	console.log('Nodervisor launched on port ' + app.get('port'));
 });
