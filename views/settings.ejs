@@ -1,0 +1,54 @@
+<%= include header.ejs %>
+    <%= include menu.ejs %>
+    
+    <div class="main-container">
+        <div class="main clearfix">
+
+            <article>
+                <%
+                    if (saved == true) {
+                        %>
+                            <div class="alert alert-success">Hosts have been saved.</div>
+                        <%
+                    }
+                %>
+                <h2>Hosts</h2>
+                <button type="button" id="add-host" class="btn btn-labeled btn-success pull-right" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span><span class="btn-text">Add Host</span></button>
+                <hr>
+                <form role="form" class="form-inline" method="post">
+                    <div id="settings-hosts">
+                        <% for (hostname in settings.hosts) { %>
+                            <fieldset>
+                                <legend><%= settings.hosts[hostname].name %></legend>
+                                <button type="button" id="" class="btn btn-labeled btn-danger pull-right remove-host" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span><span class="btn-text">Delete Host</span></button>
+                                <div class="form-group">
+                                    <label for="inputHostname">Name</label>
+                                    <input type="text" class="form-control" id="inputHostname" name="host[name]" value="<%= settings.hosts[hostname].name %>" placeholder="Host Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputHosturl">Host (Url)</label>
+                                    <input type="text" class="form-control" id="inputHosturl" name="host[host]"  value="<%= settings.hosts[hostname].host %>" placeholder="http://localhost:9001">
+                                </div>
+                                <hr>
+                            </fieldset>
+                        <% } %>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" name="submit" class="btn btn-labeled btn-success"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Save</button>
+                    </div>
+                </form>
+            </article>
+        </div> <!-- #main -->
+    </div> <!-- #main-container -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#add-host').on('click', function(){
+                $('#settings-hosts').append(new EJS({url: '/partials/hosts-settings.ejs'}).render({}))
+            });
+
+            $('#settings-hosts').on('click', '.remove-host', function(){
+                $(this).parent().remove();
+            });
+        });
+    </script>
+<%= include footer.ejs %>

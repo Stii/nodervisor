@@ -1,0 +1,106 @@
+<%= include header.ejs %>
+    <%= include menu.ejs %>
+    <div class="main-container">
+        <div class="main clearfix">
+
+            <article>
+                <h2>All Hosts</h2>
+                <button type="button" id="refresh-toggle" class="btn btn-labeled btn-success active pull-right" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span><span class="btn-text">Refresh on</span></button>
+                <hr>
+                <div id="hosts-listing">
+                </div>
+            </article>
+
+        </div> <!-- #main -->
+    </div> <!-- #main-container -->
+    <script type="text/javascript">
+        var refresh = true;
+        var hostTablesCollapse = [];
+
+        function updateList() {
+            if (refresh == true) {
+                $.ajax({
+                    url: '/ajax/supervisord',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(data){
+                        $('#hosts-listing').html('');
+
+                        var keys = Object.keys(data);
+                        keys.sort();
+
+                        keys.forEach(function(key){
+                            if (!hostTablesCollapse[key])
+                            {
+                                hostTablesCollapse[key] = 'down';
+                            }
+
+                            if (data[key].code) {
+                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, error: data[key].code}));
+                            } else {
+                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, processes: data[key], hostCollapsed: hostTablesCollapse[key]}));
+                            }
+                        });
+
+                        /*for (key in data) {
+                            
+                        };*/
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function(){
+            updateList();
+            var updateInterval = setInterval('updateList()', 5000);
+
+            $('#hosts-listing').on('click', '.super-action', function(){
+                var action = $(this).attr('data-action');
+                var process = $(this).attr('data-process');
+                var host = $(this).attr('data-host');
+
+                $.ajax({
+                    url: '/ajax/supervisorctl',
+                    type: 'get',
+                    dataType: 'json',
+                    data: ({host: host, action: action, process: process}),
+                    success: function(data){
+                        console.log(data);
+                    }
+                });
+            }).on('click', '.process-info-btn', function(){
+                $(this).parent().parent().find('.spawn-error-div').slideToggle();
+                refreshOff();
+            }).on('click', '.table-collapse', function(){
+                var table = $(this).attr('data-table');
+                if ($(this).find('i').hasClass('glyphicon-collapse-up')) {
+                    $(this).find('i').removeClass('glyphicon-collapse-up').addClass('glyphicon-collapse-down');
+                    $("[id='" + table + "']").toggle(false);
+                    hostTablesCollapse[table] = 'down';
+                } else {
+                    $(this).find('i').removeClass('glyphicon-collapse-down').addClass('glyphicon-collapse-up');
+                    $("[id='" + table + "']").toggle(true);
+                    hostTablesCollapse[table] = 'up';
+                }
+            });
+
+            function refreshOn() {
+                refresh = true;
+                $('#refresh-toggle').addClass('active').removeClass('btn-danger').addClass('btn-success').find('.btn-text').text('Refresh on');
+            }
+
+            function refreshOff() {
+                refresh = false;
+                $('#refresh-toggle').removeClass('active').removeClass('btn-success').addClass('btn-danger').find('.btn-text').text('Refresh off');
+            }
+
+            $('#refresh-toggle').on('click', function(){
+                if ($(this).hasClass('active')) {
+                    refreshOff();
+                } else {
+                    refreshOn();
+                }
+            });
+        });
+    </script>
+<%= include footer.ejs %>

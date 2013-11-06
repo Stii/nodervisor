@@ -1,0 +1,116 @@
+<%
+var hostSummary = [];
+for (var i = 0; i < processes.length; i++) {
+    
+    if (!hostSummary[processes[i].statename]) {
+        hostSummary[processes[i].statename] = 1;
+    } else {
+        hostSummary[processes[i].statename]++;
+    }
+}
+
+var summaryLabel = '';
+for (state in hostSummary) {
+    var stateColor = 'info';
+    switch (state) {
+        case 'RUNNING': {
+            stateColor = 'success';
+        }
+        break;
+        case 'STOPPED': {
+            stateColor = 'warning';
+        }
+        break;
+        case 'FATAL': {
+            stateColor = 'danger';
+        }
+        break;
+    }
+    summaryLabel += ' <span class="label label-' + stateColor + '">' + hostSummary[state] + '</span>';
+}
+%>
+<h4 ><%= hostName + ' ' + summaryLabel %></h4>
+<% if (!error) { %>
+    <button type="button" data-table="<%= hostName %>" class="btn pull-right table-collapse" style="margin-top: -47px;"><i class="glyphicon glyphicon-collapse-<%= hostCollapsed %>"></i></button>
+    <button type="button" data-host="<%= hostName %>" data-action="restartAll" class="btn btn-warning btn-labeled pull-right super-action" style="margin-top: -47px; margin-right: 65px;"><span class="btn-label"><i class="glyphicon glyphicon-repeat"></i></span> Restart all</button>
+    <%
+        var hostDisplay = '';
+        if (hostCollapsed == 'down') { hostDisplay = 'display: none;' }
+    %>
+    <table class="table table-hover table-bordered" style="<%= hostDisplay %>" id="<%= hostName %>">
+        <tr>
+            <th style="width: 50%;">Process Name</th>
+            <th style="width: 10%;">State</th>
+            <th style="width: 20%;">Changed</th>
+            <th style="width: 20%;">Actions</th>
+        </tr>
+        <% for (var i = 0; i < processes.length; i++){ %>
+            <%
+                var rowClass = 'info';
+                switch (processes[i].statename) {
+                    case 'RUNNING': {
+                        rowClass = 'success';
+                    }
+                    break;
+                    case 'STOPPED': {
+                        rowClass = 'warning';
+                    }
+                    break;
+                    case 'FATAL': {
+                        rowClass = 'danger';
+                    }
+                    break;
+                }
+            %>
+            <tr class="<%= rowClass %> process-row">
+                <td>
+                    <%= processes[i].name %>
+                    <div class="spawn-error-div" style="display: none;">
+                        <% if (processes[i].spawnerr != '') { %>
+                            <hr>
+                            <span style="font-weight: bold;">Error:</span><br>
+                            <%= processes[i].spawnerr %>
+                        <% } %>
+                    </div>
+                </td>
+                <td>
+                    <%= processes[i].statename %>
+                </td>
+                <td>
+                    <%
+                        var changeTime;
+                        if (processes[i].stop != 0 && processes[i].stop > processes[i].start) {
+                            changeTime = processes[i].stop;
+                        } else {
+                            changeTime = processes[i].start;
+                        }
+                    %>
+                    <%= moment.unix(changeTime).from(moment.unix(processes[i].now)) %>
+                </td>
+                <td>
+                    <%
+                        if (processes[i].statename == 'RUNNING') {
+                            %>
+                                <button type="button" class="btn btn-labeled btn-danger super-action" data-action="stop" data-process="<%= processes[i].name %>" data-host="<%= hostName %>"><span class="btn-label"><i class="glyphicon glyphicon-minus-sign"></i></span>Stop</button>
+                            <%
+                        } else if ((processes[i].statename == 'FATAL') || (processes[i].statename == 'STOPPED')) {
+                            %>
+                                <button type="button" class="btn btn-labeled btn-success super-action" data-action="start" data-process="<%= processes[i].name %>" data-host="<%= hostName %>"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Start</button>
+                            <%
+                        } else {
+                            %>
+                                <button type="button" class="btn btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>Updating</button>
+                            <%
+                        }
+                    %>
+                    <button type="button" class="btn btn-info process-info-btn"><i class="glyphicon glyphicon-info-sign"></i></button>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+<% } else { %>
+    <div class="alert alert-danger">
+        <strong>Error!</strong> <%= error %>
+    </div>
+<% } %>
+<hr>
