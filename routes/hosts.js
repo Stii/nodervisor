@@ -2,9 +2,14 @@
  * GET/POST settings page
  */
 
-exports.settings = function(params) {
+exports.hosts = function(params) {
 	var config = params.config;
 	return function(req, res) {
+
+		if (!req.session.loggedIn) {
+			res.redirect('/login');
+		}
+
 		var fs = require('fs');
 		var saved = false;
 		var settings = params.config.settings;
@@ -33,8 +38,8 @@ exports.settings = function(params) {
 			saved = true;
 		}
 
-		res.render('settings', {
-			title: 'Nodervisor - Settings',
+		res.render('hosts', {
+			title: 'Nodervisor - Hosts',
 			settings: settings,
 			saved: saved
 		});

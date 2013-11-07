@@ -23,15 +23,34 @@ function routes(params) {
 	 * Link routes to items in routes array
 	 */
 	
-	// Downloads page
+	// Home page
 	app.get('/', routes['supervisord']());
 	app.get('/ajax/supervisord', routes['ajax_supervisord'](params));
 
-	// Setup page
-	app.get('/settings', routes['settings'](params));
-	app.post('/settings', routes['settings'](params));
+	// Hosts page
+	app.get('/hosts', routes['hosts'](params));
+	app.post('/hosts', routes['hosts'](params));
 
-	// Download Control Page
+	// Users page
+	app.get('/users', routes['users'](params));
+	app.post('/users', routes['users'](params));
+
+	// New User page
+	/*
+	app.get('/user/new', routes['users'](params));
+	app.post('/user/new', routes['users'](params)); */
+	// User edit page
+	app.get('/user/:idUser', routes['users'](params));
+	app.post('/user/:idUser', routes['users'](params));
+
+	// Login page
+	app.get('/login', routes['login'](params));
+	app.post('/login', routes['login'](params));
+
+	// Logout page
+	app.get('/logout', routes['logout']());
+
+	// Supervisor Control Page
 	app.get('/ajax/supervisorctl', routes['ajax_supervisorctl'](params));
 }
 
