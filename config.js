@@ -1,9 +1,17 @@
 var config = {};
 
+// Db
+config.db = {
+	host: 'localhost',
+	user: 'root',
+	pass: '',
+	name: 'nodervisor',
+};
+
 // Application
 config.port = 3000;
 config.settingsFile = 'settings.json';
-config.env = 'development';
+config.env = 'production';
 
 // Read and write settings
 config.readSettings = function(){

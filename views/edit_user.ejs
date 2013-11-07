@@ -1,0 +1,49 @@
+<%= include header.ejs %>
+    <%= include menu.ejs %>
+    
+    <div class="main-container">
+
+        <div class="main clearfix">
+            <article>
+
+                <h2><%= (user === null) ? 'New User' : user.Name %></h2>
+                <hr>
+                <form method="post" role="form">
+                    <div class="row" style="margin-left: -15px;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputName" class="control-label">Name</label>
+                                <input type="text" name="name" class="form-control" id="inputName" <%= (user === null) ? 'placeholder=Name' : 'value=' + user.Name %> >
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="control-label">Email</label>
+                                <input type="email" name="email" class="form-control" id="inputEmail" <%= (user === null) ? 'placeholder=email@domain.com' : 'value=' + user.Email %> >
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword" class="control-label">Password</label>
+                                <input type="password" name="password" class="form-control" id="inputPassword" <%= (user === null) ? 'placeholder=password' : '' %> >
+                            </div>
+                            <div class="form-group">
+                                <label for="inputRole" class="control-label">Role</label>
+                                <select name="role" id="inputRole" class="form-control">
+                                    <option <%= (user !== null) ? ((user.Role == 'User') ? 'selected' : '') : '' %> value="User">User</option>
+                                    <option <%= (user !== null) ? ((user.Role == 'Admin') ? 'selected' : '') : '' %> value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" name="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <% if (user !== null) { %>
+                    <form method="post">
+                        <div class="form-group">
+                            <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                <% } %>
+            </article>
+        </div> <!-- #main -->
+    </div> <!-- #main-container -->
+<%= include footer.ejs %>

@@ -1,0 +1,38 @@
+<%= include header.ejs %>
+	<% var notLoggedIn = true %>
+    <%= include menu.ejs %>
+
+    <div class="main-container container">
+        <div class="main wrapper clearfix">
+
+            <article>
+            	<% if (typeof error != 'undefined') { %>
+            		<div class="alert alert-danger">
+            			<strong>Error!</strong>
+            			<%= error %>
+            		</div>
+            	<% } %>
+
+            	<div class="row">
+            		<div class="col-md-4 col-md-offset-4">
+            			<form class="form-horizontal" method="post" role="form">
+							<div class="form-group">
+								<label for="inputEmail" class="control-label">Email</label>
+								<input type="email" name="email" class="form-control" id="inputEmail" placeholder="email@domain.com">
+							</div>
+							<div class="form-group">
+								<label for="inputPassword" class="control-label">Password</label>
+								<input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+							</div>
+							<div class="form-group">
+								<button type="submit" name="submit" class="btn btn-default">Sign in</button>
+							</div>
+						</form>
+            		</div>
+            	</div>
+                
+            </article>
+
+        </div> <!-- #main -->
+    </div> <!-- #main-container -->
+<%= include footer.ejs %>

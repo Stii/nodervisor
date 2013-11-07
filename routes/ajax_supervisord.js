@@ -7,25 +7,30 @@ exports.ajax_supervisord = function(params) {
 	var supervisordapi = params.supervisordapi;
 	var async = require('async');
 	return function(req, res) {
+
+		if (!req.session.loggedIn) {
+			res.send({error: 'Not logged in'});
+		} else {
 		
-		var supervisords = {};
-		var hosts = [];
-		for (var hostName in config.settings.hosts) {
-			hosts.push(config.settings.hosts[hostName]);
-		}
-		async.each(hosts, function(host, callback){
-			var supclient = supervisordapi.connect(host.host);
-			var processinfo = supclient.getAllProcessInfo(function(err, result){
-				if (err === null) {
-					supervisords[host.name] = result;
-					return callback();
-				} else {
-					supervisords[host.name] = err;
-					return callback();
-				}
+			var supervisords = {};
+			var hosts = [];
+			for (var hostName in config.settings.hosts) {
+				hosts.push(config.settings.hosts[hostName]);
+			}
+			async.each(hosts, function(host, callback){
+				var supclient = supervisordapi.connect(host.host);
+				var processinfo = supclient.getAllProcessInfo(function(err, result){
+					if (err === null) {
+						supervisords[host.name] = result;
+						return callback();
+					} else {
+						supervisords[host.name] = err;
+						return callback();
+					}
+				});
+			}, function(err){
+				res.send(supervisords);
 			});
-		}, function(err){
-			res.send(supervisords);
-		});
+		}
 	};
 };

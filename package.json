@@ -10,6 +10,9 @@
     "ejs": "*",
     "stylus": "*",
     "supervisord": "*",
-    "async": "*"
+    "async": "*",
+    "mysql": "*",
+    "knex": "*",
+    "bcrypt": "*"
   }
 }
