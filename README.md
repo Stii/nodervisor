@@ -41,5 +41,5 @@ Supervisor manager in node.js
 
   * Profile page
     * Allow user to reset own password
-  * Read-only access for "user" level
-  * Page to tail process logs
+  * Store hosts in mysql
+  * Log Start/Stop/Restart/Deletes of hosts with relevant user
