@@ -16,6 +16,13 @@
     <script type="text/javascript">
         var refresh = true;
         var hostTablesCollapse = [];
+        <%
+            var sessRole = '';
+            if (typeof session.user != 'undefined'){
+                sessRole = session.user.Role;
+            }
+        %>
+        var uiRole = '<%= sessRole %>';
 
         function updateList() {
             if (refresh == true) {
@@ -36,9 +43,9 @@
                             }
 
                             if (data[key].code) {
-                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, error: data[key].code}));
+                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, error: data[key].code, role: uiRole}));
                             } else {
-                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, processes: data[key], hostCollapsed: hostTablesCollapse[key]}));
+                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, processes: data[key], hostCollapsed: hostTablesCollapse[key], role: uiRole}));
                             }
                         });
 
