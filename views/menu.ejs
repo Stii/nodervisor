@@ -5,8 +5,16 @@
 	        <nav>
 	            <ul>
 	                <li><a href="/">Home</a></li>
-	                <li><a href="/hosts">Hosts</a></li>
-	                <li><a href="/users">Users</a></li>
+	                <%
+	                	if (typeof session.user != 'undefined') {
+	                		if (session.user.Role == 'Admin') {
+                			%>
+			                	<li><a href="/hosts">Hosts</a></li>
+			                	<li><a href="/users">Users</a></li>
+	                		<%
+	                		}
+						}
+	                %>
 	                <li><a href="/logout">Logout</a></li>
 	            </ul>
 	        </nav>

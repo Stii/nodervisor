@@ -6,7 +6,7 @@ exports.hosts = function(params) {
 	var config = params.config;
 	return function(req, res) {
 
-		if (!req.session.loggedIn) {
+		if ((!req.session.loggedIn) || (req.session.user.Role != 'Admin')) {
 			res.redirect('/login');
 		}
 
@@ -41,7 +41,8 @@ exports.hosts = function(params) {
 		res.render('hosts', {
 			title: 'Nodervisor - Hosts',
 			settings: settings,
-			saved: saved
+			saved: saved,
+			session: req.session
 		});
 	};
 };

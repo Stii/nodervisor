@@ -74,14 +74,16 @@ exports.users = function(params) {
 				if (req.params.idUser == 'new') {
 					res.render('edit_user', {
 						title: 'Nodervisor - Edit User',
-						user: null
+						user: null,
+						session: req.session
 					});
 				} else {
 					qry.where('id', req.params.idUser)
 						.exec(function(err, user){
 							res.render('edit_user', {
 								title: 'Nodervisor - Edit User',
-								user: user[0]
+								user: user[0],
+								session: req.session
 							});
 						});
 				}
@@ -89,7 +91,8 @@ exports.users = function(params) {
 				qry.exec(function(err, users){
 					res.render('users', {
 						title: 'Nodervisor - Users',
-						users: users
+						users: users,
+						session: req.session
 					});
 				});
 			}
