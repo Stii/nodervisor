@@ -13,18 +13,31 @@ Supervisor manager in node.js
 
   Clone the git repository into a folder and run:
   
-	npm install
+    npm install
 	
 ### How to use it
 
-  Run the app using:
+  1. Run the app using:
   
-  node app
+    node app
   
-  After the app has started, navigate to the machine in a browser on port 3000.
+  2. After the app has started, navigate to the machine in a browser on port 3000.
   For instance:
+    http://localhost:3000
+
+  3. Log in using the default credentials of:
+  * Email: admin@nodervisor
+  * Password: admin
+
+  4. Navigate to the users page using the top menu. Change the admin credentials or add a new user and remove them.
   
-  http://localhost:3000
+  5. Navigate to the hosts page using the top menu. Then add a host running supervisord using the form.
   
-  From the home page, navigate to the settings page using the top menu. Then add a host running supervisord using the form.
-  Once you have added a host, navigate back to the home page.
+  At this point, navigating back to the home page should show you a list of your hosts, and the processes running on them.
+
+####Todo
+
+  * Profile page
+    * Allow user to reset own password
+  * Read-only access for "user" level
+  * Page to tail process logs
