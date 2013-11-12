@@ -1,11 +1,13 @@
 <%
 var hostSummary = [];
-for (var i = 0; i < processes.length; i++) {
-    
-    if (!hostSummary[processes[i].statename]) {
-        hostSummary[processes[i].statename] = 1;
-    } else {
-        hostSummary[processes[i].statename]++;
+if (typeof processes != 'undefined') {
+    for (var i = 0; i < processes.length; i++) {
+        
+        if (!hostSummary[processes[i].statename]) {
+            hostSummary[processes[i].statename] = 1;
+        } else {
+            hostSummary[processes[i].statename]++;
+        }
     }
 }
 
