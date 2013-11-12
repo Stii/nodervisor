@@ -25,8 +25,7 @@ function routes(params) {
 	
 	// Home page
 	app.get('/', routes['supervisord']());
-	app.get('/ajax/supervisord', routes['ajax_supervisord'](params));
-
+	
 	// Hosts page
 	app.get('/hosts', routes['hosts'](params));
 	app.post('/hosts', routes['hosts'](params));
@@ -35,10 +34,6 @@ function routes(params) {
 	app.get('/users', routes['users'](params));
 	app.post('/users', routes['users'](params));
 
-	// New User page
-	/*
-	app.get('/user/new', routes['users'](params));
-	app.post('/user/new', routes['users'](params)); */
 	// User edit page
 	app.get('/user/:idUser', routes['users'](params));
 	app.post('/user/:idUser', routes['users'](params));
@@ -50,8 +45,13 @@ function routes(params) {
 	// Logout page
 	app.get('/logout', routes['logout']());
 
-	// Supervisor Control Page
+	// Logs page
+	app.get('/log/:host/:process/:type', routes['log'](params));
+
+	// Supervisor Control Pages
 	app.get('/ajax/supervisorctl', routes['ajax_supervisorctl'](params));
+	app.get('/ajax/supervisord', routes['ajax_supervisord'](params));
+	app.get('/ajax/supervisorlog', routes['ajax_supervisorlog'](params));
 }
 
 module.exports = routes;

@@ -113,6 +113,7 @@ for (state in hostSummary) {
                         }
                     %>
                     <button type="button" class="btn btn-info process-info-btn"><i class="glyphicon glyphicon-info-sign"></i></button>
+                    <a href="/log/<%= hostName %>/<%= processes[i].name %>/out" class="btn btn-default"><i class="glyphicon glyphicon-tasks"></i></a>
                 </td>
             </tr>
         <% } %>
