@@ -17,17 +17,19 @@ Supervisor manager in node.js
 	
 ### How to use it
 
-  1. Run the app using:
+  Run the app using:
   
-    node app
+<pre>node app</pre>
   
   2. After the app has started, navigate to the machine in a browser on port 3000.
   For instance:
     http://localhost:3000
 
   3. Log in using the default credentials of:
-  * Email: admin@nodervisor
-  * Password: admin
+  	<ul>
+  		<li>Email: admin@nodervisor</li>
+  		<li>Password: admin</li>
+	</ul>
 
   4. Navigate to the users page using the top menu. Change the admin credentials or add a new user and remove them.
   
