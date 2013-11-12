@@ -14,8 +14,7 @@ exports.ajax_supervisorctl = function(params) {
 			if (req.session.user.Role != 'Admin') {
 				res.send({error: 'Incorrect Priviledges!'});
 				return false;
-				} else {
-					var querystring = require('querystring');
+			} else {
 				var host = req.param('host');
 				var process = req.param('process');
 				var action = req.param('action');

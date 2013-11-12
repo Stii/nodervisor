@@ -1,0 +1,78 @@
+<%= include header.ejs %>
+    <%= include menu.ejs %>
+
+    <div class="main-container container">
+        <div class="main wrapper clearfix">
+
+            <article>
+            	<% if (typeof data.error != 'undefined') { %>
+            		<div class="alert alert-danger">
+            			<strong>Error!</strong>
+            			<%= error %>
+            		</div>
+            	<% } else { %>
+                	<div class="row">
+                		<div class="col-md-12">
+                            <h3><%= host + ' - ' + process + ' (Std' + type + ')' %></h3>
+                            <button type="button" id="refresh-toggle" class="btn btn-labeled btn-success active pull-right" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span><span class="btn-text">Refresh on</span></button>
+                            <% if (type == 'out') { %>
+                                <a href="err" class="btn btn-danger pull-right" style="margin-top: -50px; margin-right: 140px;">Stderr</a>
+                            <% } else { %>
+                                <a href="out" class="btn btn-default pull-right" style="margin-top: -50px; margin-right: 140px;">Stdout</a>
+                            <% } %>
+                			<pre id="log-data">
+                            </pre>
+                		</div>
+                	</div>
+                <% } %>
+            </article>
+
+        </div> <!-- #main -->
+    </div> <!-- #main-container -->
+    <script type="text/javascript">
+        var process = '<%= process %>';
+        var host = '<%= host %>';
+        var type = '<%= type %>';
+        var offset = 0;
+        var refresh = true;
+
+        function readLog() {
+            if (refresh === true) {
+                $.ajax({
+                    url: '/ajax/supervisorlog',
+                    type: 'get',
+                    dataType: 'json',
+                    data: ({host: host, process: process, type: type, offset: offset}),
+                    success: function(result){
+                        offset = result.data[1];
+                        $('#log-data').append(result.data[0]);
+                        console.log(result);
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function(){
+            readLog();
+            var updateInterval = setInterval('readLog()', 5000);
+
+            function refreshOn() {
+                refresh = true;
+                $('#refresh-toggle').addClass('active').removeClass('btn-danger').addClass('btn-success').find('.btn-text').text('Refresh on');
+            }
+
+            function refreshOff() {
+                refresh = false;
+                $('#refresh-toggle').removeClass('active').removeClass('btn-success').addClass('btn-danger').find('.btn-text').text('Refresh off');
+            }
+
+            $('#refresh-toggle').on('click', function(){
+                if ($(this).hasClass('active')) {
+                    refreshOff();
+                } else {
+                    refreshOn();
+                }
+            });
+        });
+    </script>
+<%= include footer.ejs %>
