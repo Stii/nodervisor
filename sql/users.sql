@@ -7,8 +7,8 @@ CREATE TABLE `users` (
   `Password` varchar(128) NOT NULL,
   `Role` varchar(45) NOT NULL DEFAULT 'User',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1$$
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1$$
 
-INSERT INTO users VALUES('Admin', 'admin@nodervisor', '$2a$10$OI5bfzPATM2358vQlDYKweliWYI2FyJwqsDJUMXuqaSzM.7vNa3xu', 'Admin')$$
+INSERT INTO users(Name, Email, Password, Role) VALUES('Admin', 'admin@nodervisor', '$2a$10$OI5bfzPATM2358vQlDYKweliWYI2FyJwqsDJUMXuqaSzM.7vNa3xu', 'Admin')$$
 
 delimiter ;
