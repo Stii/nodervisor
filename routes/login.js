@@ -35,6 +35,7 @@ exports.login = function(params) {
 		} else {
 			res.render('login', {
 				title: 'Nodervisor - Login',
+				session: req.session
 			});
 		}
 	};

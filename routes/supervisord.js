@@ -10,7 +10,8 @@ exports.supervisord = function(params) {
 		}
 
 		res.render('supervisord', {
-			title: 'Nodervisor - All Hosts'
+			title: 'Nodervisor - All Hosts',
+			session: req.session
 		});
 	};
 };
