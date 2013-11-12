@@ -33,7 +33,7 @@ Supervisor manager in node.js
 
   4. Navigate to the users page using the top menu. Change the admin credentials or add a new user and remove them.
   
-  5. Navigate to the hosts page using the top menu. Then add a host running supervisord using the form.
+  5. Navigate to the hosts page using the top menu. Then add a host running supervisord using the form. Your supervisord config on each host should be set up to allow the xmlrpc interface over a inet port.
   
   At this point, navigating back to the home page should show you a list of your hosts, and the processes running on them.
 
