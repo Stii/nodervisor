@@ -38,7 +38,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({secret: 'DU2787GpjHDGGe72ZDBjh23jkDFs'}));
+app.use(express.session({secret: config.sessionSecret}));
 app.use(app.router);
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
