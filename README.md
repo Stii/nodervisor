@@ -11,15 +11,18 @@ Supervisor manager in node.js
 
 ### Installation
 
-  Clone the git repository into a folder and run:
+  1. Clone the git repository into a folder and run:
   
-    npm install
+        npm install
+    
+  2. Run the database scripts provided in the sql folder on whichever MySql server you want to use.
+  3. Update the config.js file with your database connection details and database name.
 	
 ### How to use it
 
   Run the app using:
   
-<pre>node app</pre>
+    node app
   
   2. After the app has started, navigate to the machine in a browser on port 3000.
   For instance:
