@@ -20,7 +20,6 @@ exports.users = function(params) {
 				var hash = bcrypt.hashSync(req.body.password, salt);
 
 				if (req.params.idUser == 'new') {
-					console.log("New User");
 					params.db('users').insert({
 							Name: req.body.name,
 							Email: req.body.email,
@@ -35,7 +34,6 @@ exports.users = function(params) {
 							}
 						});
 				} else {
-					console.log("Updating user");
 					var info = {
 						Name: req.body.name,
 						Email: req.body.email,
@@ -43,7 +41,6 @@ exports.users = function(params) {
 					};
 
 					if (req.body.password !== '') {
-						console.log('updating password to ' + req.body.password);
 						info.Password = hash;
 					}
 

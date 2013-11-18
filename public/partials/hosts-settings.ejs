@@ -1,13 +1,14 @@
 <fieldset>
     <legend>New Host</legend>
+    <input type="hidden" name="host[idHost]" value="0">
     <button type="button" id="" class="btn btn-labeled btn-danger pull-right remove-host" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span><span class="btn-text">Delete Host</span></button>
     <div class="form-group">
         <label for="inputHostname">Name</label>
-        <input type="text" class="form-control" id="inputHostname" name="host[name]" placeholder="Host Name">
+        <input type="text" class="form-control" id="inputHostname" name="host[Name]" placeholder="Host Name">
     </div>
     <div class="form-group">
         <label for="inputHosturl">Host (Url)</label>
-        <input type="text" class="form-control" id="inputHosturl" name="host[host]" placeholder="http://localhost:9001">
+        <input type="text" class="form-control" id="inputHosturl" name="host[Url]" placeholder="http://localhost:9001">
     </div>
     <hr>
 </fieldset>

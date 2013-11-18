@@ -14,17 +14,24 @@ exports.ajax_supervisord = function(params) {
 		
 			var supervisords = {};
 			var hosts = [];
-			for (var hostName in config.settings.hosts) {
-				hosts.push(config.settings.hosts[hostName]);
+			for (var idHost in config.hosts) {
+				hosts.push(config.hosts[idHost]);
 			}
+			
 			async.each(hosts, function(host, callback){
-				var supclient = supervisordapi.connect(host.host);
+				var supclient = supervisordapi.connect(host.Url);
 				var processinfo = supclient.getAllProcessInfo(function(err, result){
 					if (err === null) {
-						supervisords[host.name] = result;
+						supervisords[host.idHost] = {
+							host: host,
+							data: result
+						};
 						return callback();
 					} else {
-						supervisords[host.name] = err;
+						supervisords[host.idHost] = {
+							host: host,
+							data: err
+						};
 						return callback();
 					}
 				});

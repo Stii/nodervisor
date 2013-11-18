@@ -1,48 +1,62 @@
 /*
- * GET/POST settings page
+ * GET/POST hosts page
  */
 
 exports.hosts = function(params) {
 	var config = params.config;
+	var db = params.db;
 	return function(req, res) {
 
 		if ((!req.session.loggedIn) || (req.session.user.Role != 'Admin')) {
 			res.redirect('/login');
 		}
 
-		var fs = require('fs');
 		var saved = false;
-		var settings = params.config.settings;
+		var hosts = params.config.hosts;
 		
 		if (req.body.submit !== undefined) {
-			console.log(req.body);
-			var newHosts = {};
+			var newHosts = [];
 			if (req.body.host !== undefined) {
-				if (req.body.host.name instanceof Array) {
-					for (var i = 0; i < req.body.host.name.length; i++) {
-						newHosts[req.body.host.name[i]] = {
-							name: req.body.host.name[i],
-							host: req.body.host.host[i]
-						};
+				// Using the posted data to actually construct the data objects to pass to db writes.
+				// Because its easier this way. (and it used to be stored in json file)
+				if (req.body.host.idHost instanceof Array) {
+					for (var i = 0; i < req.body.host.idHost.length; i++) {
+						newHosts.push({
+							idHost: req.body.host.idHost[i],
+							Name: req.body.host.Name[i],
+							Url: req.body.host.Url[i]
+						});
 					}
 				} else {
-					newHosts[req.body.host.name] = {
-						name: req.body.host.name,
-						host: req.body.host.host
-					};
+					newHosts.push({
+						idHost: req.body.host.idHost,
+						Name: req.body.host.Name,
+						Url: req.body.host.Url
+					});
 				}
 			}
 
-			settings.hosts = newHosts;
-			params.config.writeSettings(settings);
-			saved = true;
+			// Save and render
+			params.config.writeHosts(db, newHosts, function(err){
+				if (!err){
+					saved = true;
+				}
+				res.render('hosts', {
+					title: 'Nodervisor - Hosts',
+					hosts: params.config.hosts,
+					saved: saved,
+					error: err,
+					session: req.session
+				});
+			});
+		} else {
+			res.render('hosts', {
+				title: 'Nodervisor - Hosts',
+				hosts: hosts,
+				saved: saved,
+				error: null,
+				session: req.session
+			});
 		}
-
-		res.render('hosts', {
-			title: 'Nodervisor - Hosts',
-			settings: settings,
-			saved: saved,
-			session: req.session
-		});
 	};
 };

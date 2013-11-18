@@ -8,12 +8,12 @@
             	<% if (typeof data.error != 'undefined') { %>
             		<div class="alert alert-danger">
             			<strong>Error!</strong>
-            			<%= error %>
+            			<%= data.error %>
             		</div>
             	<% } else { %>
                 	<div class="row">
                 		<div class="col-md-12">
-                            <h3><%= host + ' - ' + process + ' (Std' + type + ')' %></h3>
+                            <h3><%= data.host.Name + ' - ' + process + ' (Std' + type + ')' %></h3>
                             <button type="button" id="refresh-toggle" class="btn btn-labeled btn-success active pull-right" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span><span class="btn-text">Refresh on</span></button>
                             <% if (type == 'out') { %>
                                 <a href="err" class="btn btn-danger pull-right" style="margin-top: -50px; margin-right: 140px;">Stderr</a>
