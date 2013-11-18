@@ -11,6 +11,7 @@ config.db = {
 // Application
 config.port = 3000;
 config.env = 'production';
+config.sessionSecret = '1234567890ABCDEF';
 
 // Read and write settings
 config.readHosts = function(db, callback){
