@@ -19,8 +19,8 @@ exports.ajax_supervisorctl = function(params) {
 				var process = req.param('process');
 				var action = req.param('action');
 
-				if (config.settings.hosts[host] !== undefined) {
-					var supclient = supervisordapi.connect(config.settings.hosts[host].host);
+				if (config.hosts[host] !== undefined) {
+					var supclient = supervisordapi.connect(config.hosts[host].Url);
 					switch (action) {
 						case 'stop': {
 							supclient.stopProcessGroup(process, function(){

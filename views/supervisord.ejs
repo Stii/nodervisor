@@ -5,7 +5,10 @@
 
             <article>
                 <h2>All Hosts</h2>
-                <button type="button" id="refresh-toggle" class="btn btn-labeled btn-success active pull-right" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span><span class="btn-text">Refresh on</span></button>
+                <button type="button" id="refresh-toggle" class="btn btn-labeled btn-success active pull-right" style="margin-top: -50px;">
+                    <span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>
+                    <span class="btn-text">Refresh on</span>
+                </button>
                 <hr>
                 <div id="hosts-listing">
                 </div>
@@ -30,10 +33,10 @@
                     url: '/ajax/supervisord',
                     type: 'get',
                     dataType: 'json',
-                    success: function(data){
+                    success: function(hosts){
                         $('#hosts-listing').html('');
 
-                        var keys = Object.keys(data);
+                        var keys = Object.keys(hosts);
                         keys.sort();
 
                         keys.forEach(function(key){
@@ -42,16 +45,12 @@
                                 hostTablesCollapse[key] = 'down';
                             }
 
-                            if (data[key].code) {
-                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, error: data[key].code, role: uiRole}));
+                            if (hosts[key].data.code) {
+                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({host: hosts[key].host, error: hosts[key].data.code, role: uiRole}));
                             } else {
-                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({hostName: key, processes: data[key], hostCollapsed: hostTablesCollapse[key], role: uiRole}));
+                                $('#hosts-listing').append(new EJS({url: '/partials/hosts-listing.ejs'}).render({host: hosts[key].host, processes: hosts[key].data, hostCollapsed: hostTablesCollapse[key], role: uiRole}));
                             }
                         });
-
-                        /*for (key in data) {
-                            
-                        };*/
                     }
                 });
             }
@@ -82,11 +81,11 @@
                 var table = $(this).attr('data-table');
                 if ($(this).find('i').hasClass('glyphicon-collapse-up')) {
                     $(this).find('i').removeClass('glyphicon-collapse-up').addClass('glyphicon-collapse-down');
-                    $("[id='" + table + "']").toggle(false);
+                    $("table[id='" + table + "']").toggle(false);
                     hostTablesCollapse[table] = 'down';
                 } else {
                     $(this).find('i').removeClass('glyphicon-collapse-down').addClass('glyphicon-collapse-up');
-                    $("[id='" + table + "']").toggle(true);
+                    $("table[id='" + table + "']").toggle(true);
                     hostTablesCollapse[table] = 'up';
                 }
             });

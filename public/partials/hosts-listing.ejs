@@ -31,25 +31,25 @@ for (state in hostSummary) {
     summaryLabel += ' <span class="label label-' + stateColor + '">' + hostSummary[state] + '</span>';
 }
 %>
-<h4 ><%= hostName + ' ' + summaryLabel %></h4>
+<h4 ><%= host.Name + ' ' + summaryLabel %></h4>
 <% if (!error) { %>
-    <button type="button" data-table="<%= hostName %>" class="btn pull-right table-collapse" style="margin-top: -47px;"><i class="glyphicon glyphicon-collapse-<%= hostCollapsed %>"></i></button>
+    <button type="button" data-table="<%= host.idHost %>" class="btn pull-right table-collapse" style="margin-top: -47px;"><i class="glyphicon glyphicon-collapse-<%= hostCollapsed %>"></i></button>
     <%
         if (role == 'Admin') {
             %>
-                <button type="button" data-host="<%= hostName %>" data-action="restartAll" class="btn btn-warning btn-labeled pull-right super-action" style="margin-top: -47px; margin-right: 65px;"><span class="btn-label"><i class="glyphicon glyphicon-repeat"></i></span> Restart all</button>
+                <button type="button" data-host="<%= host.idHost %>" data-action="restartAll" class="btn btn-warning btn-labeled pull-right super-action" style="margin-top: -47px; margin-right: 65px;"><span class="btn-label"><i class="glyphicon glyphicon-repeat"></i></span> Restart all</button>
             <%
         }
 
         var hostDisplay = '';
         if (hostCollapsed == 'down') { hostDisplay = 'display: none;' }
     %>
-    <table class="table table-hover table-striped" style="<%= hostDisplay %>" id="<%= hostName %>">
+    <table class="table table-hover table-striped" style="<%= hostDisplay %>" id="<%= host.idHost %>">
         <tr>
-            <th style="width: 50%;">Process Name</th>
+            <th style="width: 45%;">Process Name</th>
             <th style="width: 10%;">State</th>
             <th style="width: 20%;">Changed</th>
-            <th style="width: 20%;">Actions</th>
+            <th style="width: 25%;">Actions</th>
         </tr>
         <% for (var i = 0; i < processes.length; i++){ %>
             <%
@@ -99,11 +99,11 @@ for (state in hostSummary) {
                         if (role == 'Admin') {
                             if (processes[i].statename == 'RUNNING') {
                                 %>
-                                    <button type="button" class="btn btn-labeled btn-danger super-action" data-action="stop" data-process="<%= processes[i].name %>" data-host="<%= hostName %>"><span class="btn-label"><i class="glyphicon glyphicon-minus-sign"></i></span>Stop</button>
+                                    <button type="button" class="btn btn-labeled btn-danger super-action" data-action="stop" data-process="<%= processes[i].name %>" data-host="<%= host.idHost %>"><span class="btn-label"><i class="glyphicon glyphicon-minus-sign"></i></span>Stop</button>
                                 <%
                             } else if ((processes[i].statename == 'FATAL') || (processes[i].statename == 'STOPPED')) {
                                 %>
-                                    <button type="button" class="btn btn-labeled btn-success super-action" data-action="start" data-process="<%= processes[i].name %>" data-host="<%= hostName %>"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Start</button>
+                                    <button type="button" class="btn btn-labeled btn-success super-action" data-action="start" data-process="<%= processes[i].name %>" data-host="<%= host.idHost %>"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Start</button>
                                 <%
                             } else {
                                 %>
@@ -113,7 +113,7 @@ for (state in hostSummary) {
                         }
                     %>
                     <button type="button" class="btn btn-info process-info-btn"><i class="glyphicon glyphicon-info-sign"></i></button>
-                    <a href="/log/<%= hostName %>/<%= processes[i].name %>/out" class="btn btn-default"><i class="glyphicon glyphicon-tasks"></i></a>
+                    <a href="/log/<%= host.idHost %>/<%= processes[i].name %>/out" class="btn btn-default"><i class="glyphicon glyphicon-tasks"></i></a>
                 </td>
             </tr>
         <% } %>

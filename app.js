@@ -9,7 +9,6 @@ var express = require('express'),
 
 // Express App Server
 var app = express();
-config.readSettings();
 
 // Settings for all environments
 app.set('port', config.port);
@@ -28,6 +27,8 @@ var db = Knex.initialize({
 		charset  : 'utf8'
 	}
 });
+
+config.readHosts(db);
 
 /**
  * Set up Middleware
