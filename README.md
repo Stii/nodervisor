@@ -39,7 +39,5 @@ Supervisor manager in node.js
 
 ####Todo
 
-  * Profile page
-    * Allow user to reset own password
-  * Store hosts in mysql
+  * Allow user to reset own password
   * Log Start/Stop/Restart/Deletes of hosts with relevant user
