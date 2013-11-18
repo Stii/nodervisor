@@ -12,8 +12,8 @@ exports.log = function(params) {
 
 		if (req.params.host && req.params.process) {
 			var data = {};
-			if (config.settings.hosts[req.params.host] !== undefined) {
-				data.host = config.settings.hosts[req.params.host];
+			if (config.hosts[req.params.host] !== undefined) {
+				data.host = config.hosts[req.params.host];
 			} else {
 				data.error = "Host not found";
 			}

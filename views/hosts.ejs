@@ -11,23 +11,30 @@
                             <div class="alert alert-success">Hosts have been saved.</div>
                         <%
                     }
+
+                    if (error != null) {
+                        %>
+                            <div class="alert alert-danger"><strong>Error!</strong> <%= error %></div>
+                        <%
+                    }
                 %>
                 <h2>Hosts</h2>
                 <button type="button" id="add-host" class="btn btn-labeled btn-success pull-right" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span><span class="btn-text">Add Host</span></button>
                 <hr>
                 <form role="form" class="form-inline" method="post">
                     <div id="settings-hosts">
-                        <% for (hostname in settings.hosts) { %>
+                        <% for (idHost in hosts) { %>
                             <fieldset>
-                                <legend><%= settings.hosts[hostname].name %></legend>
+                                <legend><%= hosts[idHost].Name %></legend>
+                                <input type="hidden" name="host[idHost]" value="<%= idHost %>">
                                 <button type="button" id="" class="btn btn-labeled btn-danger pull-right remove-host" style="margin-top: -50px;"><span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span><span class="btn-text">Delete Host</span></button>
                                 <div class="form-group">
                                     <label for="inputHostname">Name</label>
-                                    <input type="text" class="form-control" id="inputHostname" name="host[name]" value="<%= settings.hosts[hostname].name %>" placeholder="Host Name">
+                                    <input type="text" class="form-control" id="inputHostname" name="host[Name]" value="<%= hosts[idHost].Name %>" placeholder="Host Name">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputHosturl">Host (Url)</label>
-                                    <input type="text" class="form-control" id="inputHosturl" name="host[host]"  value="<%= settings.hosts[hostname].host %>" placeholder="http://localhost:9001">
+                                    <input type="text" class="form-control" id="inputHosturl" name="host[Url]"  value="<%= hosts[idHost].Url %>" placeholder="http://localhost:9001">
                                 </div>
                                 <hr>
                             </fieldset>
